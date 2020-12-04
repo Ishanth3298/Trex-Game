@@ -45,7 +45,6 @@ function setup() {
   ground = createSprite(200,180,400,20);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
-  ground.velocityX = -(6 + 3*score/100);
   
   gameOver = createSprite(300,100);
   gameOver.addImage(gameOverImg);
@@ -67,23 +66,23 @@ function setup() {
   
   score = 0;
   
-  trex.setCollider("circle",0,0,40);
+  trex.setCollider("circle",0,0,30);
 }
 
 function draw() {
   //trex.debug = true;
-  background("green");
+  background(255);
   text("Score: "+ score, 500,50);
   
   if (gameState===PLAY){
     score = score + Math.round(getFrameRate()/60);
-    ground.velocityX = -(6 + score/1500);
+    ground.velocityX = -(6 + score/700);
   
-    if(keyDown("space") && trex.y >= 140) {
-      trex.velocityY = -12;
+    if(keyDown("space") && trex.y >= 150) {
+      trex.velocityY = -16.5;
     }
   
-    trex.velocityY = trex.velocityY + 0.9;
+    trex.velocityY = trex.velocityY + 1.4;
   
     if (ground.x < 0){
       ground.x = ground.width/2;
@@ -92,6 +91,8 @@ function draw() {
     trex.collide(invisibleGround);
     spawnClouds();
     spawnObstacles();
+    
+    ground.velocityX = -(8 + score/700);
   
     if(obstaclesGroup.isTouching(trex)){
         gameState = END;
@@ -147,9 +148,9 @@ function spawnClouds() {
 
 function spawnObstacles() {
   if(frameCount % 60 === 0) {
-    var obstacle = createSprite(610,165,10,40);
+    var obstacle = createSprite(610,168,10,40);
     //obstacle.debug = true;
-    obstacle.velocityX = -(6 + score/1500);
+    obstacle.velocityX = -(8 + score/700);
     
     //generate random obstacles
     var rand = Math.round(random(1,6));
